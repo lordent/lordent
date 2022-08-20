@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <otp-input></otp-input>
+    <script>
+
+        class OtpInput extends HTMLElement {
+            constructor() {
+                super()
+
+                this.attachShadow({ mode: 'open' })
+                const input = document.createElement('input')
+                this.shadowRoot.append(input)
+            }
+
+            connectedCallback() {
+
+
+                navigator.credentials.get({
+                    otp: { transport: ['sms'] },
+                }).then(otp => {
+                    input.value = otp.code
+                }).catch(err => {
+                    alert(err)
+                })
+            }
+        }
+
+        customElements.define('otp-input', OtpInput)
+
+    </script>
+
+</body>
+
+</html>
